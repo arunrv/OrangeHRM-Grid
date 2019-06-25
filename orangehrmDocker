@@ -1,0 +1,27 @@
+docker network create orangehrm-tier
+docker volume create --name mariadb_data
+docker run -d --name mariadb -e ALLOW_EMPTY_PASSWORD=yes -e ALLOW_EMPTY_PASSWORD=yes -e MARIADB_USER=bn_orangehrm -e MARIADB_DATABASE=bitnami_orangehrm --net orangehrm-tier --volume mariadb_data:/bitnami bitnami/mariadb:latest
+docker run -d --name orangehrm -p 80:80 -p 443:443 -e ALLOW_EMPTY_PASSWORD=yes -e ORANGEHRM_DATABASE_USER=bn_orangehrm -e ORANGEHRM_DATABASE_NAME=bitnami_orangehrm --net orangehrm-tier --volume orangehrm_data:/bitnami bitnami/orangehrm:latest
+
+
+
+User and Site configuration
+ORANGEHRM_USERNAME: OrangeHRM application username. Default: admin
+ORANGEHRM_PASSWORD: OrangeHRM application password. Default: Bitnami.12345
+Use an existing database
+MARIADB_HOST: Hostname for MariaDB server. Default: mariadb
+MARIADB_PORT_NUMBER: Port used by MariaDB server. Default: 3306
+ORANGEHRM_DATABASE_NAME: Database name that OrangeHRM will use to connect with the database. Default: bitnami_orangehrm
+ORANGEHRM_DATABASE_USER: Database user that OrangeHRM will use to connect with the database. Default: bn_orangehrm
+ORANGEHRM_DATABASE_PASSWORD: Database password that OrangeHRM will use to connect with the database. No defaults.
+ALLOW_EMPTY_PASSWORD: It can be used to allow blank passwords. Default: no
+Create a database for OrangeHRM using mysql-client
+MARIADB_HOST: Hostname for MariaDB server. Default: mariadb
+MARIADB_PORT_NUMBER: Port used by MariaDB server. Default: 3306
+MARIADB_ROOT_USER: Database admin user. Default: root
+MARIADB_ROOT_PASSWORD: Database password for the MARIADB_ROOT_USER user. No defaults.
+MYSQL_CLIENT_CREATE_DATABASE_NAME: New database to be created by the mysql client module. No defaults.
+MYSQL_CLIENT_CREATE_DATABASE_USER: New database user to be created by the mysql client module. No defaults.
+MYSQL_CLIENT_CREATE_DATABASE_PASSWORD: Database password for the MYSQL_CLIENT_CREATE_DATABASE_USER user. No defaults.
+ALLOW_EMPTY_PASSWORD: It can be used to allow blank passwords. Default: no
+If you want to add a new environment variable:
